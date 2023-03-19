@@ -16,6 +16,10 @@
 - Allowing user to pay ticket with coupon
   - coupon can only be used one time
   - each coupon have minimum price (can only be used if reach certain minimum prices)
+- Allowing user to pay ticket with mrtPoin
+  - User will get Poin for every payment
+  - poin gained = 10% x total price (tentative)
+- Design pattern in use: Adapter Pattern
 
 ### API Specification
 #### /payment
