@@ -18,7 +18,7 @@
   - each coupon have minimum price (can only be used if reach certain minimum prices)
 - Allowing user to pay ticket with mrtPoin
   - User will get Poin for every payment
-  - poin gained = 10% x total price (tentative)
+  - poin gained = 4 point per Rp5.000,00 (tentative)
 - Design pattern in use: Adapter Pattern
 
 ### API Specification
