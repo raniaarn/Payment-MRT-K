@@ -23,6 +23,7 @@
 
 ### API Specification
 #### /payment
+![Diagram UML payment](Payment.png.png)
 ``` 
 Given input:
 {
@@ -37,6 +38,7 @@ Get balance from user_id first, then check whether user’s balance is enough (o
 <br> Note: Needs Service 1 (Authentication) and 3 (Ticket Purchase and History)
 
 #### /TopUp
+![Diagram UML topup](TopUp.png.png)
 ``` 
 Given input:
 {
