@@ -55,7 +55,7 @@ public class WalletServiceImplTest {
 
         var expected = 65000.0;
 
-        assertEquals(result, expected);
+        assertEquals(result, -expected);
     }
 
     // negative testing

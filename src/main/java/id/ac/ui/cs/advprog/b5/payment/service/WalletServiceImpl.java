@@ -1,6 +1,8 @@
 package id.ac.ui.cs.advprog.b5.payment.service;
 
 import id.ac.ui.cs.advprog.b5.payment.core.Wallet;
+import id.ac.ui.cs.advprog.b5.payment.core.command.TopUpCommand;
+import id.ac.ui.cs.advprog.b5.payment.core.command.WalletCommand;
 import id.ac.ui.cs.advprog.b5.payment.dto.TopUpRequest;
 import id.ac.ui.cs.advprog.b5.payment.exceptions.InvalidUserException;
 import id.ac.ui.cs.advprog.b5.payment.exceptions.WalletAlreadyExistException;
@@ -45,7 +47,8 @@ public class WalletServiceImpl implements WalletService {
             throw new InvalidUserException();
         }
         Wallet wallet = walletRepository.getWallet(userId);
-        wallet.addToBalance(amount);
+        WalletCommand topup = new TopUpCommand();
+        topup.execute(wallet, amount);
         return wallet;
     }
 }
