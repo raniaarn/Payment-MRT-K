@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WalletServiceImplTest {
     @InjectMocks
-    private WalletServiceImpl service;
+    private WalletService service;
 
     @Mock
     private WalletRepository walletRepository;
@@ -55,7 +55,7 @@ public class WalletServiceImplTest {
 
         var expected = 65000.0;
 
-        assertEquals(result, -expected);
+        assertEquals(result, expected);
     }
 
     // negative testing

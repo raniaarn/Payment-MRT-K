@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.b5.payment.core.adapter;
+package id.ac.ui.cs.advprog.b5.payment.core.payment.adapter;
 
 import id.ac.ui.cs.advprog.b5.payment.core.payment.Payment;
 

@@ -1,13 +1,15 @@
 package id.ac.ui.cs.advprog.b5.payment.core;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class Wallet {
     @JsonProperty(required = true)
-    private int balance;
+    private double balance;
 
     @JsonProperty(required = true)
     private int point;
@@ -18,17 +20,13 @@ public class Wallet {
     public Wallet(String userId) {
         this.userId = userId;
     }
-    public String addToBalance(double amount) {
-        balance += amount;
-        return "Your current point is " + balance;
-    }
 
     public String getUserId() {
         return userId;
     }
 
-    public String reduceBalance(double amount) {
-        balance -= amount;
+    public String setBalance(double amount) {
+        balance += amount;
         return "Your current point is " + balance;
     }
 
