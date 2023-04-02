@@ -25,21 +25,16 @@ public class Wallet {
         return userId;
     }
 
-    public String setBalance(double amount) {
+    public void updateBalance(double amount) {
         balance += amount;
-        return "Your current point is " + balance;
     }
 
     public double getBalance() {
         return balance;
     }
 
-    public String addPoint(int amount) {
-        return "0";
-    }
-
-    public String reducePoint(int amount) {
-        return "0";
+    public void updatePoint(int amount) {
+        point += amount;
     }
 
     public int getPoint() {

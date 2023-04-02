@@ -47,8 +47,8 @@ public class WalletServiceImpl implements WalletService {
             throw new InvalidUserException();
         }
         Wallet wallet = walletRepository.getWallet(userId);
-        WalletCommand topup = new TopUpCommand();
-        topup.execute(wallet, amount);
+        WalletCommand topUpCommand = new TopUpCommand();
+        topUpCommand.execute(wallet, amount);
         return wallet;
     }
 }
