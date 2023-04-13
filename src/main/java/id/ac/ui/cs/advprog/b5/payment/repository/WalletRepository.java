@@ -1,27 +1,19 @@
 package id.ac.ui.cs.advprog.b5.payment.repository;
+
 import id.ac.ui.cs.advprog.b5.payment.core.Wallet;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.NonNull;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
+
 
 @Repository
-public class WalletRepository {
-    private final Map<String, Wallet> walletMap;
+public interface WalletRepository extends JpaRepository<Wallet, Integer> {
+    @NonNull
+    List<Wallet> findAll();
+    @NonNull
+    Optional<Wallet> findById(@NonNull Integer Id);
 
-    public WalletRepository() {
-        this.walletMap = new HashMap<>();
-    }
-
-    public void addWallet(String userId, Wallet wallet) {
-        walletMap.put(userId, wallet);
-    }
-
-    public Wallet getWallet(String userId) {
-        return walletMap.get(userId);
-    }
-
-    public Map<String, Wallet> getWalletMap() {
-        return walletMap;
-    }
 }

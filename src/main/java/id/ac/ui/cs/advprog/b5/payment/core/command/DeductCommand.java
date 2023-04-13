@@ -8,4 +8,9 @@ public class DeductCommand implements WalletCommand {
         wallet.updateBalance(-amount);
         return "your balance is now " + wallet.getBalance();
     }
+
+    @Override
+    public String getName() {
+        return "DEDUCT";
+    }
 }

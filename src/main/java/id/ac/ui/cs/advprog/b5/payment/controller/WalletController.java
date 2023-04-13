@@ -7,11 +7,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/payment")
 @RequiredArgsConstructor
 public class WalletController {
     private final WalletService walletService;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Wallet>> getAll() {
+        List<Wallet> response = walletService.getAllWallet();
+        return ResponseEntity.ok(response);
+    }
 
     @PutMapping("/topup")
     public ResponseEntity<Wallet> topUpToWallet (@RequestBody TopUpRequest topUpRequest) {
@@ -20,13 +28,13 @@ public class WalletController {
     }
 
     @GetMapping("/balance/{userId}")
-    public ResponseEntity<Wallet> getWallet(@PathVariable String userId) {
-        Wallet response = walletService.getWallet(userId);
+    public ResponseEntity<Double> getWallet(@PathVariable Integer userId) {
+        Double response = walletService.getWallet(userId).getBalance();
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/create-wallet")
-    public ResponseEntity createWallet (@RequestBody String userId) {
+    public ResponseEntity createWallet (@RequestBody Integer userId) {
         Wallet response = walletService.createWallet(userId);
         return ResponseEntity.ok(response);
     }

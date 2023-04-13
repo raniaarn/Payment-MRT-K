@@ -3,25 +3,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "wallets")
 public class Wallet {
+    @Id
+    private Integer id;
+
     @JsonProperty(required = true)
     private double balance;
 
-    @JsonProperty(required = true)
-    private int point;
-
     @JsonProperty(value = "user", required = true)
-    private String userId;
+    private Integer userId;
 
-    public Wallet(String userId) {
+    //@OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
+    //private List<CommandHistory> commandHistoryList;
+
+    public Wallet(Integer userId) {
         this.userId = userId;
+        this.id = userId;
     }
 
-    public String getUserId() {
+    public Wallet() {
+
+    }
+
+    public Integer getUserId() {
         return userId;
     }
 
@@ -31,13 +45,5 @@ public class Wallet {
 
     public double getBalance() {
         return balance;
-    }
-
-    public void updatePoint(int amount) {
-        point += amount;
-    }
-
-    public int getPoint() {
-        return point;
     }
 }

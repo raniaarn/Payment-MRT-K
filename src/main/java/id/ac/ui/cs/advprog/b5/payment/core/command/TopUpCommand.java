@@ -9,4 +9,9 @@ public class TopUpCommand implements WalletCommand {
         wallet.updateBalance(amount);
         return "Top up succeed. your balance is now " + wallet.getBalance();
     }
+
+    @Override
+    public String getName() {
+        return "TOPUP";
+    }
 }

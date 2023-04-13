@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 public class TopUpRequest {
-    private String userId;
+    private Integer userId;
     private double amount;
 
 }

@@ -7,7 +7,5 @@ public class PaymentServiceImpl {
     // String makePayment(User user, Ticket ticket) {
         // check which payment user chooses
        // if money -> if balance < fare (failed)
-       // if voucher -> if voucher amount < fare (failed)
-       // if poin -> poin*1000 < fare (failed)
     }
 }
