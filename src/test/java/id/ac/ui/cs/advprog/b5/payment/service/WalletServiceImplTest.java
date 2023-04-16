@@ -74,8 +74,6 @@ public class WalletServiceImplTest {
     @Test
     void whenTopUpAndShouldReturnBalance() {
         when(repository.findById(any(Integer.class))).thenReturn(Optional.of(walletA));
-        when(commandRepository.findAllByUserId(any(Integer.class))).thenReturn(List.of(any(UserWalletCommand.class)));
-
         Double result = service.topUp(topUpRequest).getBalance();
         Assertions.assertEquals(50000, result);
     }
