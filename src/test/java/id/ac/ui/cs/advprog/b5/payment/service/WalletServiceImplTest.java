@@ -1,9 +1,12 @@
 package id.ac.ui.cs.advprog.b5.payment.service;
 
+import id.ac.ui.cs.advprog.b5.payment.core.UserWalletCommand;
 import id.ac.ui.cs.advprog.b5.payment.core.Wallet;
+import id.ac.ui.cs.advprog.b5.payment.core.command.WalletCommand;
 import id.ac.ui.cs.advprog.b5.payment.dto.TopUpRequest;
 import id.ac.ui.cs.advprog.b5.payment.exceptions.WalletDoesNotExistException;
 import id.ac.ui.cs.advprog.b5.payment.exceptions.WalletAlreadyExistException;
+import id.ac.ui.cs.advprog.b5.payment.repository.CommandRepository;
 import id.ac.ui.cs.advprog.b5.payment.repository.WalletRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,6 +30,9 @@ public class WalletServiceImplTest {
 
     @Mock
     private WalletRepository repository;
+
+    @Mock
+    private CommandRepository commandRepository;
 
     Integer userId1;
     Wallet walletA;
@@ -49,8 +56,9 @@ public class WalletServiceImplTest {
 
         walletB = Wallet.builder()
                 .balance(50000)
-
                 .build();
+
+
     }
 
 
@@ -66,6 +74,7 @@ public class WalletServiceImplTest {
     @Test
     void whenTopUpAndShouldReturnBalance() {
         when(repository.findById(any(Integer.class))).thenReturn(Optional.of(walletA));
+        when(commandRepository.findAllByUserId(any(Integer.class))).thenReturn(List.of(any(UserWalletCommand.class)));
 
         Double result = service.topUp(topUpRequest).getBalance();
         Assertions.assertEquals(50000, result);

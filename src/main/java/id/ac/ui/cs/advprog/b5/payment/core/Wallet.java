@@ -5,9 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @Builder
@@ -23,16 +20,7 @@ public class Wallet {
     @JsonProperty(value = "user", required = true)
     private Integer userId;
 
-    //@OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
-    //private List<CommandHistory> commandHistoryList;
-
-    public Wallet(Integer userId) {
-        this.userId = userId;
-        this.id = userId;
-    }
-
     public Wallet() {
-
     }
 
     public Integer getUserId() {

@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.b5.payment.controller;
 
+import id.ac.ui.cs.advprog.b5.payment.core.UserWalletCommand;
 import id.ac.ui.cs.advprog.b5.payment.core.Wallet;
 import id.ac.ui.cs.advprog.b5.payment.dto.TopUpRequest;
 import id.ac.ui.cs.advprog.b5.payment.service.WalletService;
@@ -18,6 +19,12 @@ public class WalletController {
     @GetMapping("/all")
     public ResponseEntity<List<Wallet>> getAll() {
         List<Wallet> response = walletService.getAllWallet();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/history/{userId}")
+    public ResponseEntity<List<UserWalletCommand>> getAllById(@PathVariable Integer userId) {
+        List<UserWalletCommand> response = walletService.getUserHistory(userId);
         return ResponseEntity.ok(response);
     }
 
