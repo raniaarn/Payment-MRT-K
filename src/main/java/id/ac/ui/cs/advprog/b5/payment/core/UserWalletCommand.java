@@ -1,8 +1,5 @@
 package id.ac.ui.cs.advprog.b5.payment.core;
 
-import id.ac.ui.cs.advprog.b5.payment.core.command.TopUpCommand;
-import id.ac.ui.cs.advprog.b5.payment.core.command.WalletCommand;
-import id.ac.ui.cs.advprog.b5.payment.core.payment.MoneyPayment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.b5.payment.controller;
 
 import id.ac.ui.cs.advprog.b5.payment.core.UserWalletCommand;
 import id.ac.ui.cs.advprog.b5.payment.core.Wallet;
+import id.ac.ui.cs.advprog.b5.payment.dto.PaymentRequest;
 import id.ac.ui.cs.advprog.b5.payment.dto.TopUpRequest;
 import id.ac.ui.cs.advprog.b5.payment.service.WalletService;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,12 @@ public class WalletController {
     @PostMapping("/create-wallet")
     public ResponseEntity createWallet (@RequestBody Integer userId) {
         Wallet response = walletService.createWallet(userId);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/pay")
+    public ResponseEntity payTicket (@RequestBody PaymentRequest paymentRequest) {
+        String response = walletService.pay(paymentRequest);
         return ResponseEntity.ok(response);
     }
 }

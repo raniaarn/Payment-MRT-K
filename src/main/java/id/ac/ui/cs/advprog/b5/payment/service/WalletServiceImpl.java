@@ -2,8 +2,12 @@ package id.ac.ui.cs.advprog.b5.payment.service;
 
 import id.ac.ui.cs.advprog.b5.payment.core.UserWalletCommand;
 import id.ac.ui.cs.advprog.b5.payment.core.Wallet;
+import id.ac.ui.cs.advprog.b5.payment.core.command.DeductCommand;
 import id.ac.ui.cs.advprog.b5.payment.core.command.TopUpCommand;
 import id.ac.ui.cs.advprog.b5.payment.core.command.WalletCommand;
+import id.ac.ui.cs.advprog.b5.payment.core.payment.MoneyPayment;
+import id.ac.ui.cs.advprog.b5.payment.core.payment.Payment;
+import id.ac.ui.cs.advprog.b5.payment.dto.PaymentRequest;
 import id.ac.ui.cs.advprog.b5.payment.dto.TopUpRequest;
 import id.ac.ui.cs.advprog.b5.payment.exceptions.WalletDoesNotExistException;
 import id.ac.ui.cs.advprog.b5.payment.exceptions.WalletAlreadyExistException;
@@ -11,7 +15,6 @@ import id.ac.ui.cs.advprog.b5.payment.repository.CommandRepository;
 import id.ac.ui.cs.advprog.b5.payment.repository.WalletRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,10 +76,42 @@ public class WalletServiceImpl implements WalletService {
                 .commandName(topUpCommand.getName())
                 .build();
 
-
         // save to repo
         walletRepository.save(wallet);
         commandRepository.save(newCommand);
         return wallet;
     }
+
+    @Override
+    public String pay(PaymentRequest paymentRequest) {
+        Payment payment = new MoneyPayment();
+
+        // check
+        double amount = paymentRequest.getAmount();
+        Integer userId = paymentRequest.getUserId();
+        if (walletRepository.findById(userId).isEmpty()) {
+            throw new WalletDoesNotExistException();
+        }
+
+        // get wallet
+        Wallet wallet = walletRepository.findById(userId).get();
+        WalletCommand command = new DeductCommand();
+        String pay = payment.pay(wallet, command, amount);
+
+        // save to history if succeed
+        if (payment.isSucceed()) {
+            UserWalletCommand newCommand = UserWalletCommand.builder()
+                    .userId(userId)
+                    .commandName(command.getName())
+                    .build();
+
+            commandRepository.save(newCommand);
+        }
+
+        // save to repo
+        walletRepository.save(wallet);
+        return pay;
+    }
+
+
 }
