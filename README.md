@@ -3,16 +3,8 @@
 ### Description
 - Subtract user's balance based on ticket's price
 - Top up some amount of money to user's balance
-  - Rp50.000
-  - Rp100.000
-  - Rp150.000
-  - Rp200.000
-  - Rp250.000
-  - Rp300.000
-  - Rp350.000
-  - Rp400.000
-  - Rp450.000
-  - Rp500.000
+- every each command (either topup or deduct, will go to wallet's History)
+- each user has 1 wallet
 - Design pattern in use: (Wallet) Command Pattern
   ![Diagram UML topup](TopUp.png.png)
 
@@ -26,9 +18,9 @@ Given input:
 }
 
  ```
-Get balance from user_id first, then check whether user’s balance is enough (optional to use coupon to pay):
+Get balance from user_id first, then check whether user’s balance is enough:
 <br>- If not enough, returns status 403 (caught by ticket/buy-ticket from Service 3).
-<br>- If enough, subtract user balance (if not using coupon), (use account/edit-account from Service 1).
+<br>- If enough, subtract user balance.
 <br> Note: Needs Service 1 (Authentication) and 3 (Ticket Purchase and History)
 
 #### /api/payment/topup
@@ -39,7 +31,7 @@ Given input:
     userId: 1
 }
  ```
-Calls account/edit-account, edit balance from Service 1 
+get userId from Service 1 
 <br> Note: Needs Service 1 (Authentication)
 
 ERD:
