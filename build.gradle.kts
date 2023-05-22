@@ -19,11 +19,14 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.3")
+
     compileOnly("org.projectlombok:lombok")
     implementation("org.postgresql:postgresql:42.5.4")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -31,6 +34,13 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.2")
+    }
+}
+
 
 tasks.withType<Test> {
     useJUnitPlatform()
