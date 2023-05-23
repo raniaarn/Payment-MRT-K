@@ -14,19 +14,12 @@ public class MoneyPayment implements Payment{
     private boolean status;
 
     @Override
-    public String pay(Wallet wallet, WalletCommand walletCommand, double amount) {
+    public Boolean pay(Wallet wallet, WalletCommand walletCommand, double amount) {
         if (wallet.getBalance() < amount) {
-            this.status = false;
-            return "Insufficient funds. Top up to pay. Current Balance: " + wallet.getBalance();
+            return false;
         } else {
             walletCommand.execute(wallet, amount);
-            this.status = true;
-            return "Your payment is succeed. Current Balance: " + wallet.getBalance();
+            return true;
         }
-    }
-
-    @Override
-    public boolean isSucceed() {
-        return this.status;
     }
 }

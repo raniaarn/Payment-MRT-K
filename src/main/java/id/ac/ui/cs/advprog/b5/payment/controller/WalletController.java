@@ -49,7 +49,7 @@ public class WalletController {
 
     @PutMapping("/pay")
     public ResponseEntity payTicket (@RequestBody PaymentRequest paymentRequest) {
-        String response = walletService.pay(paymentRequest);
+        Boolean response = walletService.pay(paymentRequest);
         return ResponseEntity.ok(response);
     }
 }

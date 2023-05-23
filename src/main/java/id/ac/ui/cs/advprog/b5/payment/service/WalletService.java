@@ -15,5 +15,5 @@ public interface WalletService {
     public Wallet topUp(TopUpRequest topUpRequest);
     public Wallet getWallet(Integer userId);
     public List<UserWalletCommand> getUserHistory(Integer userId);
-    public String pay(PaymentRequest paymentRequest);
+    public Boolean pay(PaymentRequest paymentRequest);
     }

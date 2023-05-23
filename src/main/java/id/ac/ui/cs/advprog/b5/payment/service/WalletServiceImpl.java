@@ -83,7 +83,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public String pay(PaymentRequest paymentRequest) {
+    public Boolean pay(PaymentRequest paymentRequest) {
         Payment payment = new MoneyPayment();
 
         // check
@@ -96,10 +96,10 @@ public class WalletServiceImpl implements WalletService {
         // get wallet
         Wallet wallet = walletRepository.findById(userId).get();
         WalletCommand command = new DeductCommand();
-        String pay = payment.pay(wallet, command, amount);
+        Boolean pay = payment.pay(wallet, command, amount);
 
         // save to history if succeed
-        if (payment.isSucceed()) {
+        if (pay) {
             UserWalletCommand newCommand = UserWalletCommand.builder()
                     .userId(userId)
                     .commandName(command.getName())
