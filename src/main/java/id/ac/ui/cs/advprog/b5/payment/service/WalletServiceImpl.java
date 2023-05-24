@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,10 +38,11 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public Wallet getWallet(Integer userId) {
-        if (walletRepository.findById(userId).isEmpty()) {
+        Optional<Wallet> walletOptional = walletRepository.findById(userId);
+        if (walletOptional.isEmpty()) {
             throw new WalletDoesNotExistException();
         } else {
-            return walletRepository.findById(userId).get();
+            return walletOptional.get();
         }
     }
 
@@ -59,7 +61,7 @@ public class WalletServiceImpl implements WalletService {
         double amount = topUpRequest.getAmount();
         Integer userId = topUpRequest.getUserId();
 
-        Wallet wallet = getWallet(userId);
+        var wallet = getWallet(userId);
         WalletCommand topUpCommand = new TopUpCommand();
         topUpCommand.execute(wallet, amount);
 
@@ -74,7 +76,7 @@ public class WalletServiceImpl implements WalletService {
         double amount = paymentRequest.getAmount();
         Integer userId = paymentRequest.getUserId();
 
-        Wallet wallet = getWallet(userId);
+        var wallet = getWallet(userId);
         WalletCommand command = new DeductCommand();
         Boolean pay = payment.pay(wallet, command, amount);
 

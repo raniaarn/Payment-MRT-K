@@ -31,7 +31,7 @@ public class WalletController {
 
     @PutMapping("/topup")
     public ResponseEntity<Wallet> topUpToWallet (@RequestBody TopUpRequest topUpRequest) {
-        Wallet response = walletService.topUp(topUpRequest);
+        var response = walletService.topUp(topUpRequest);
         return ResponseEntity.ok(response);
     }
 
@@ -42,13 +42,13 @@ public class WalletController {
     }
 
     @PostMapping("/create-wallet")
-    public ResponseEntity createWallet (@RequestBody Integer userId) {
-        Wallet response = walletService.createWallet(userId);
+    public ResponseEntity<Wallet> createWallet (@RequestBody Integer userId) {
+        var response = walletService.createWallet(userId);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/pay")
-    public ResponseEntity payTicket (@RequestBody PaymentRequest paymentRequest) {
+    public ResponseEntity<Boolean> payTicket (@RequestBody PaymentRequest paymentRequest) {
         Boolean response = walletService.pay(paymentRequest);
         return ResponseEntity.ok(response);
     }
