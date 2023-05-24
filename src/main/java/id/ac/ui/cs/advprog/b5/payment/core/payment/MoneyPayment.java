@@ -11,8 +11,6 @@ public class MoneyPayment implements Payment{
     @GeneratedValue
     private Integer id;
 
-    private boolean status;
-
     @Override
     public Boolean pay(Wallet wallet, WalletCommand walletCommand, double amount) {
         if (wallet.getBalance() < amount) {

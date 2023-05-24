@@ -16,14 +16,12 @@ import id.ac.ui.cs.advprog.b5.payment.repository.WalletRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Getter
 public class WalletServiceImpl implements WalletService {
-    // top up certain amount, using buttons then add to user's wallet
     private final WalletRepository walletRepository;
     private final CommandRepository commandRepository;
 
@@ -41,8 +39,9 @@ public class WalletServiceImpl implements WalletService {
     public Wallet getWallet(Integer userId) {
         if (walletRepository.findById(userId).isEmpty()) {
             throw new WalletDoesNotExistException();
+        } else {
+            return walletRepository.findById(userId).get();
         }
-        return walletRepository.findById(userId).get();
     }
 
     @Override
@@ -57,61 +56,43 @@ public class WalletServiceImpl implements WalletService {
     }
     @Override
     public Wallet topUp(TopUpRequest topUpRequest) {
-
-        // check
         double amount = topUpRequest.getAmount();
         Integer userId = topUpRequest.getUserId();
-        if (walletRepository.findById(userId).isEmpty()) {
-            throw new WalletDoesNotExistException();
-        }
 
-        // get wallet
-        Wallet wallet = walletRepository.findById(userId).get();
+        Wallet wallet = getWallet(userId);
         WalletCommand topUpCommand = new TopUpCommand();
         topUpCommand.execute(wallet, amount);
 
-        // save to history
-        UserWalletCommand newCommand = UserWalletCommand.builder()
-                .userId(userId)
-                .commandName(topUpCommand.getName())
-                .build();
-
-        // save to repo
+        saveToHistory(userId, topUpCommand);
         walletRepository.save(wallet);
-        commandRepository.save(newCommand);
         return wallet;
     }
 
     @Override
     public Boolean pay(PaymentRequest paymentRequest) {
         Payment payment = new MoneyPayment();
-
-        // check
         double amount = paymentRequest.getAmount();
         Integer userId = paymentRequest.getUserId();
-        if (walletRepository.findById(userId).isEmpty()) {
-            throw new WalletDoesNotExistException();
-        }
 
-        // get wallet
-        Wallet wallet = walletRepository.findById(userId).get();
+        Wallet wallet = getWallet(userId);
         WalletCommand command = new DeductCommand();
         Boolean pay = payment.pay(wallet, command, amount);
 
         // save to history if succeed
-        if (pay) {
-            UserWalletCommand newCommand = UserWalletCommand.builder()
-                    .userId(userId)
-                    .commandName(command.getName())
-                    .build();
-
-            commandRepository.save(newCommand);
+        if (Boolean.TRUE.equals(pay)) {
+            saveToHistory(userId, command);
         }
 
-        // save to repo
         walletRepository.save(wallet);
         return pay;
     }
 
+    public void saveToHistory(Integer userId, WalletCommand command) {
+        UserWalletCommand newCommand = UserWalletCommand.builder()
+                .userId(userId)
+                .commandName(command.getName())
+                .build();
 
+        commandRepository.save(newCommand);
+    }
 }

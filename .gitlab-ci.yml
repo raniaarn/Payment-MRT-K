@@ -19,9 +19,6 @@ stages:
   - publish
   - deploy
 
-
-
-
 Build:
   stage: build
   image: gradle:jdk17-alpine
@@ -37,9 +34,6 @@ Build:
     paths:
       - build/libs/*.jar
     expire_in: 1 week
-
-
-
 
 Test:
   stage: test
@@ -63,9 +57,6 @@ Test:
       junit: build/test-results/test/**/TEST-*.xml
   coverage: '/Total.*?([0-9]{1,3})%/'
 
-
-
-
 Publish:
   stage: publish
   image: docker:latest
@@ -84,9 +75,6 @@ Publish:
   only:
     - master
 
-
-
-
 Deploy:
   stage: deploy
   image: alpine:latest
@@ -98,5 +86,20 @@ Deploy:
       docker container rm -f $CONTAINER_NAME || true &&
       docker image rm -f $REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG || true &&
       docker run --name $CONTAINER_NAME -d -p 80:8080 $REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG"
+  only:
+    - master
+
+sonarqube-check:
+  image: gradle:jdk17-alpine
+  variables:
+    GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    paths:
+      - .sonar/cache
+  before_script:
+    - chmod +x ./gradlew
+  script:
+    - ./gradlew sonarqube -Dsonar.projectKey=$SONAR_KEY -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
+  allow_failure: true
   only:
     - master

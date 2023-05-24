@@ -21,10 +21,7 @@ public class Wallet {
     private Integer userId;
 
     public Wallet() {
-    }
-
-    public Integer getUserId() {
-        return userId;
+        // constructor of Wallet
     }
 
     public void updateBalance(double amount) {

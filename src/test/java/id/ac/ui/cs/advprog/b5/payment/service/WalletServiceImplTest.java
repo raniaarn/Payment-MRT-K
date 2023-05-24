@@ -1,8 +1,7 @@
 package id.ac.ui.cs.advprog.b5.payment.service;
 
-import id.ac.ui.cs.advprog.b5.payment.core.UserWalletCommand;
 import id.ac.ui.cs.advprog.b5.payment.core.Wallet;
-import id.ac.ui.cs.advprog.b5.payment.core.command.WalletCommand;
+import id.ac.ui.cs.advprog.b5.payment.dto.PaymentRequest;
 import id.ac.ui.cs.advprog.b5.payment.dto.TopUpRequest;
 import id.ac.ui.cs.advprog.b5.payment.exceptions.WalletDoesNotExistException;
 import id.ac.ui.cs.advprog.b5.payment.exceptions.WalletAlreadyExistException;
@@ -15,16 +14,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class WalletServiceImplTest {
+class WalletServiceImplTest {
     @InjectMocks
     private WalletServiceImpl service;
 
@@ -40,6 +36,10 @@ public class WalletServiceImplTest {
 
     TopUpRequest topUpRequest;
 
+    PaymentRequest paymentRequest;
+
+    PaymentRequest paymentRequestFail;
+
     @BeforeEach
     void setUp() {
         userId1 = 2106650222;
@@ -54,11 +54,19 @@ public class WalletServiceImplTest {
                 .userId(userId1)
                 .build();
 
+        paymentRequest = PaymentRequest.builder()
+                .amount(2000)
+                .userId(userId1)
+                .build();
+
+        paymentRequestFail = PaymentRequest.builder()
+                .amount(100000)
+                .userId(userId1)
+                .build();
+
         walletB = Wallet.builder()
                 .balance(50000)
                 .build();
-
-
     }
 
 
@@ -77,6 +85,24 @@ public class WalletServiceImplTest {
         Double result = service.topUp(topUpRequest).getBalance();
         Assertions.assertEquals(50000, result);
     }
+
+    @Test
+    void whenPayAndShouldReturnTrue() {
+        when(repository.findById(any(Integer.class))).thenReturn(Optional.of(walletA));
+        service.topUp(topUpRequest);
+
+        when(repository.findById(any(Integer.class))).thenReturn(Optional.of(walletA));
+        Boolean result = service.pay(paymentRequest);
+        Assertions.assertEquals(true, result);
+    }
+
+    @Test
+    void whenPayAndShouldReturnFalse() {
+        when(repository.findById(any(Integer.class))).thenReturn(Optional.of(walletA));
+        Boolean result = service.pay(paymentRequestFail);
+        Assertions.assertEquals(false, result);
+    }
+
 
     // negative testing
     @Test

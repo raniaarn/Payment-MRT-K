@@ -21,6 +21,6 @@ public class UserWalletCommand {
     private String commandName;
 
     public UserWalletCommand() {
-
+        // constructor of userWalletCOmmand
     }
 }

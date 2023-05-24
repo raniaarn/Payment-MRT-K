@@ -1,9 +1,6 @@
 package id.ac.ui.cs.advprog.b5.payment.repository;
 
 import id.ac.ui.cs.advprog.b5.payment.core.UserWalletCommand;
-import id.ac.ui.cs.advprog.b5.payment.core.Wallet;
-import id.ac.ui.cs.advprog.b5.payment.core.command.WalletCommand;
-import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
@@ -16,7 +13,7 @@ public interface CommandRepository extends JpaRepository<UserWalletCommand, Inte
     @NonNull
     List<UserWalletCommand> findAll();
     @NonNull
-    Optional<UserWalletCommand> findById(@NonNull Integer Id);
+    Optional<UserWalletCommand> findById(@NonNull Integer id);
 
     List<UserWalletCommand> findAllByUserId(Integer userId);
 }
