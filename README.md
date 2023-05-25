@@ -19,7 +19,7 @@ Given input:
 
  ```
 Get balance from user_id first, then check whether user’s balance is enough:
-<br>- If not enough, returns status 403 (caught by ticket/buy-ticket from Service 3).
+<br>- If not enough, returns false (then caught by ticket/purchase from Service 3).
 <br>- If enough, subtract user balance.
 <br> Note: Needs Service 1 (Authentication) and 3 (Ticket Purchase and History)
 

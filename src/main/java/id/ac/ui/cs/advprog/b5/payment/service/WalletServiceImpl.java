@@ -89,7 +89,7 @@ public class WalletServiceImpl implements WalletService {
         return pay;
     }
 
-    public void saveToHistory(Integer userId, WalletCommand command) {
+    private void saveToHistory(Integer userId, WalletCommand command) {
         UserWalletCommand newCommand = UserWalletCommand.builder()
                 .userId(userId)
                 .commandName(command.getName())
