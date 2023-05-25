@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.swing.*;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -147,7 +145,11 @@ class WalletServiceImplTest {
 
     @Test
     void whenCreateWalletShouldReturnWallet() {
-        Wallet wallet = new Wallet(110, 0, 110);
+        Wallet wallet = Wallet.builder()
+                .id(110)
+                .userId(110)
+                .balance(0)
+                .build();
 
         when(repository.save(any(Wallet.class))).thenReturn(wallet);
         Wallet result = service.createWallet(110);
@@ -155,6 +157,23 @@ class WalletServiceImplTest {
         Assertions.assertEquals(wallet, result);
     }
 
+    @Test
+    void testGetRepository() {
+        WalletRepository expectedRepository = repository;
+        when(service.getWalletRepository()).thenReturn(Optional.of(expectedRepository));
+        WalletRepository actualEntity = service.getWalletRepository().get();
+
+        Assertions.assertEquals(expectedRepository, actualEntity);
+    }
+
+    @Test
+    void testGetCommandRepository() {
+        CommandRepository expectedRepository = commandRepository;
+        when(service.getCommandRepository()).thenReturn(Optional.of(expectedRepository));
+        CommandRepository actualEntity = service.getCommandRepository().get();
+
+        Assertions.assertEquals(expectedRepository, actualEntity);
+    }
 
     // negative testing
     @Test

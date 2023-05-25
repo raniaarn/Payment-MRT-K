@@ -26,6 +26,14 @@ public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
     private final CommandRepository commandRepository;
 
+    public Optional<WalletRepository> getWalletRepository() {
+        return Optional.ofNullable(this.walletRepository);
+    }
+
+    public Optional<CommandRepository> getCommandRepository() {
+        return Optional.ofNullable(commandRepository);
+    }
+
     @Override
     public List<Wallet> getAllWallet() {
         return walletRepository.findAll();
